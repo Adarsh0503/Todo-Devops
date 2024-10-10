@@ -11,7 +11,8 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script { // Explicit closure
-                    docker.build("todoapp:latest")
+                    // Build the Docker image using the Dockerfile in the frontend folder
+                    docker.build("todoapp:latest", "-f frontend/Dockerfile frontend/")
                 }
             }
         }
@@ -19,7 +20,8 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script { // Explicit closure
-                    docker.image("todoapp:latest").run('-p 8080:8080') // Adjust port mapping as necessary
+                    // Run the Docker container with appropriate port mapping
+                    docker.image("todoapp:latest").run('-p 8080:3000') // Exposing port 3000 from the container to port 8080 on the host
                 }
             }
         }
