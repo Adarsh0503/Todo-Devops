@@ -10,8 +10,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    // Build the Docker image and tag it as 'latest'
+                script { // Explicit closure
                     docker.build("todoapp:latest")
                 }
             }
@@ -19,19 +18,17 @@ pipeline {
 
         stage('Run Docker Container') {
             steps {
-                script {
-                    // Run the Docker container, consider mapping ports if needed
-                    docker.image("todoapp:latest").run('-p 8080:8080')  // Adjust port mapping as necessary
+                script { // Explicit closure
+                    docker.image("todoapp:latest").run('-p 8080:8080') // Adjust port mapping as necessary
                 }
             }
         }
 
         stage('Clean Up') {
             steps {
-                script {
-                    // Optionally, clean up resources
-                    // Uncomment the line below if you want to remove the image after the build
-                    // docker.image("todoapp:latest").remove()  
+                script { // Explicit closure
+                    // Uncomment if you want to remove the image after the build
+                    // docker.image("todoapp:latest").remove()
                 }
             }
         }
