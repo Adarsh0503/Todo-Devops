@@ -2,37 +2,38 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout SCM') {
+        stage('Build') {
             steps {
-                checkout scm
+                // Checkout code from GitHub
+                git 'https://github.com/Adarsh0503/Todo-Devops.git' // Update to your repository URL
+
+                // Build frontend Docker image
+                sh 'docker build -t frontend-image ./frontend' // Build the Docker image from the frontend directory
             }
         }
-
-        stage('Build Docker Image') {
+        stage('Test') {
             steps {
-                script {
-                    // Build the Docker image using the Dockerfile in the frontend folder
-                    docker.build("todoapp:latest", "-f frontend/Dockerfile frontend/")
-                }
+                // Run frontend tests if any
+                // Example: npm test
+                // Uncomment and adjust this line based on your testing framework
+                // sh 'npm install' // Install dependencies if needed
+                // sh 'npm test' // Run tests
+                echo "hello"
             }
         }
-
-        stage('Run Docker Container') {
+        stage('Deploy') {
             steps {
-                script {
-                    // Run the Docker container with appropriate port mapping
-                    docker.image("todoapp:latest").run('-p 8080:3000') // Exposing port 3000 from the container to port 8080 on the host
-                }
+                // Run Docker container
+                sh 'docker run -d -p 3000:3000 --name frontend-container frontend-image' // Run the container
             }
         }
+    }
 
-        stage('Clean Up') {
-            steps {
-                script {
-                    // Uncomment if you want to remove the image after the build
-                    // docker.image("todoapp:latest").remove()
-                }
-            }
+    post {
+        always {
+            // Cleanup: Stop and remove the container after the build
+            sh 'docker stop frontend-container || true' // Stop the container if it's running
+            sh 'docker rm frontend-container || true' // Remove the container
         }
     }
 }
