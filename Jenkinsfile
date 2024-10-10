@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                // Checkout code from GitHub
+                // Checkout code from GitHub to acces it
                 git 'https://github.com/Adarsh0503/Todo-Devops.git' // Update to your repository URL
 
                 // Build frontend Docker image
