@@ -6,10 +6,6 @@ pipeline {
             steps {
                 checkout scm
             }
-            steps{
-                echo 'Building Docker Image...'
-
-            }
         }
 
         stage('Build Docker Image') {
