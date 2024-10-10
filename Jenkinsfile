@@ -1,37 +1,32 @@
 pipeline {
     agent any
-
     stages {
-        stage('Clone Repository') {
+        stage('Checkout SCM') {
             steps {
-                // Clone the repository
-                git branch: 'main', url: 'https://github.com/Adarsh0503/Todo-Devops.git'
+                checkout scm
             }
         }
-
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Build Docker Image
-                    def app = docker.build("TodoApp")
+                    // Use a lowercase name for the Docker image
+                    docker.build("todoapp") 
                 }
             }
         }
-
-        stage('Clean Up') {
-            steps {
-                // Remove old containers
-                sh 'docker rm -f mern-container || true'
-                // Remove old images
-                sh 'docker rmi $(docker images -f "dangling=true" -q) || true'
-            }
-        }
-
         stage('Run Docker Container') {
             steps {
                 script {
-                    // Run Docker Container
-                    sh 'docker run -d -p 3000:3000 --name mern-container TodoApp'
+                    // Run the Docker container
+                    docker.image("todoapp").run()
+                }
+            }
+        }
+        stage('Clean Up') {
+            steps {
+                script {
+                    // Optionally, clean up resources
+                    // docker.image("todoapp").remove()  // Uncomment if needed
                 }
             }
         }
