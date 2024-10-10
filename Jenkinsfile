@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                // Clone the repository and be happy
+                // Clone the repository and be happy please
                 git branch: 'main', url: 'https://github.com/Adarsh0503/Todo-Devops.git'
             }
         }
