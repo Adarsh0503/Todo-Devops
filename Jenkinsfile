@@ -11,7 +11,7 @@ pipeline {
         stage('Build') {
             steps {
                 // Checkout code from GitHub to acces it
-                git 'https://github.com/Adarsh0503/Todo-Devops.git' // Update to your repository URL
+                git 'https://github.com/Adarsh0503/Todo-Devops.git/' // Update to your repository URL
 
                 // Build frontend Docker image
                 sh "docker build -t ${IMAGE_NAME} ./frontend" // Build the Docker image from the frontend directory
