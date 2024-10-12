@@ -11,17 +11,19 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                // Build the Docker image
                 script {
-                    sh 'docker build -t todo-node-app1 .'
+                    // Change to the frontend directory and build the Docker image
+                    dir('frontend') {  // Assuming your Dockerfile is in the 'frontend' directory
+                        sh 'docker build -t todo-node-app1 .'
+                    }
                 }
             }
         }
 
         stage('Stop and Remove Existing Container') {
             steps {
-                // Stop and remove the existing container if it exists
                 script {
+                    // Stop and remove the existing container if it exists
                     sh '''
                     docker stop node-todo-app1 || true
                     docker rm node-todo-app1 || true
@@ -32,8 +34,8 @@ pipeline {
 
         stage('Run Docker Container') {
             steps {
-                // Run the Docker container
                 script {
+                    // Run the Docker container
                     sh 'docker run -d --name node-todo-app1 -p 3000:3000 todo-node-app1'
                 }
             }
