@@ -1,45 +1,51 @@
 pipeline {
-    agent any
-
-    environment {
-        IMAGE_NAME = 'frontend-image'
-        CONTAINER_NAME = 'frontend-container'
-        DOCKER_PORT = '3000'
-    }
+    agent any 
 
     stages {
-        stage('Build') {
+        stage('Checkout') {
             steps {
-                // Checkout code from GitHub to acces it
-                git 'https://github.com/Adarsh0503/Todo-Devops.git/' // Update to your repository URL
+                // Checkout the code from the GitHub repository
+                git url: 'https://github.com/Adarsh0503/Todo-Devops.git', branch: 'main' 
+            }
+        }
 
-                // Build frontend Docker image
-                sh "docker build -t ${IMAGE_NAME} ./frontend" // Build the Docker image from the frontend directory
+        stage('Build Docker Image') {
+            steps {
+                // Build the Docker image
+                script {
+                    sh 'docker build -t todo-node-app1 .'
+                }
             }
         }
-        stage('Test') {
+
+        stage('Stop and Remove Existing Container') {
             steps {
-                // Run frontend tests if any
-                // Example: npm test
-                // Uncomment and adjust this line based on your testing framework
-                // sh 'npm install' // Install dependencies if needed
-                // sh 'npm test' // Run tests
-                echo "Running tests... (Add your test commands here)"
+                // Stop and remove the existing container if it exists
+                script {
+                    sh '''
+                    docker stop node-todo-app1 || true
+                    docker rm node-todo-app1 || true
+                    '''
+                }
             }
         }
-        stage('Deploy') {
+
+        stage('Run Docker Container') {
             steps {
-                // Run Docker container
-                sh "docker run -d -p ${DOCKER_PORT}:${DOCKER_PORT} --name ${CONTAINER_NAME} ${IMAGE_NAME}" // Run the container
+                // Run the Docker container
+                script {
+                    sh 'docker run -d --name node-todo-app1 -p 3000:3000 todo-node-app1'
+                }
             }
         }
     }
 
     post {
-        always {
-            // Cleanup: Stop and remove the container after the build
-            sh "docker stop ${CONTAINER_NAME} || true" // Stop the container if it's running
-            sh "docker rm ${CONTAINER_NAME} || true" // Remove the container
+        success {
+            echo 'Build and deployment successful!'
+        }
+        failure {
+            echo 'Build failed!'
         }
     }
 }
