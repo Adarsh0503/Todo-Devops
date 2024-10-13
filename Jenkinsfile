@@ -32,7 +32,7 @@ pipeline {
             }
         }
 
-        stage('Stop and Remove Existing Container') {
+        stage('Stop and Remove Existing the Container') {
             steps {
                 script {
                     echo 'Stopping and removing the existing container if it exists'
