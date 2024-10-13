@@ -5,6 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout the code from the GitHub repository
+                echo 'Starting fetching code'
                 git url: 'https://github.com/Adarsh0503/Todo-Devops.git', branch: 'main' 
             }
         }
@@ -12,7 +13,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Change to the frontend directory and build the Docker image
+                    echo 'Change to the frontend directory and build the Docker image'
                     dir('frontend') {  // Assuming your Dockerfile is in the 'frontend' directory
                         sh 'docker build -t todo-node-app1 .'
                     }
@@ -23,7 +24,7 @@ pipeline {
         stage('Stop and Remove Existing Container') {
             steps {
                 script {
-                    // Stop and remove the existing container if it exists
+                    echo 'Stop and remove the existing container if it exists'
                     sh '''
                     docker stop node-todo-app1 || true
                     docker rm node-todo-app1 || true
@@ -35,7 +36,7 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
-                    // Run the Docker container
+                    echo 'Running the Docker container'
                     sh 'docker run -d --name node-todo-app1 -p 3000:3000 todo-node-app1'
                 }
             }
