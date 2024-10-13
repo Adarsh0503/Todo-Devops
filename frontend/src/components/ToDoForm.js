@@ -20,7 +20,7 @@ const ToDoForm = ({ addTask }) => {
         value={task}
         onChange={(e) => setTask(e.target.value)}
       />
-      <button type="submit" className="ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+      <button type="submit" className="ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700">
         Add Task
       </button>
     </form>
