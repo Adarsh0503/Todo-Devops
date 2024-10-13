@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the code from the GitHub repository
+                echo 'Checking out the code from the GitHub repository'
                 git url: 'https://github.com/Adarsh0503/Todo-Devops.git', branch: 'main' 
             }
         }
@@ -12,7 +12,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Change to the frontend directory and build the Docker image
+                    echo 'Change to the frontend directory and build the Docker image'
                     dir('frontend') {  // Assuming your Dockerfile is in the 'frontend' directory
                         sh 'docker build -t todo-node-app1 .'
                     }
