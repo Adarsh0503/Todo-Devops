@@ -23,7 +23,7 @@ pipeline {
         stage('Stop and Remove Existing Container') {
             steps {
                 script {
-                    // Stop and remove the existing container if it exists
+                    echo 'Stop and remove the existing container if it exists'
                     sh '''
                     docker stop node-todo-app1 || true
                     docker rm node-todo-app1 || true
@@ -35,7 +35,7 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
-                    // Run the Docker container
+                    echo 'Running the Docker container'
                     sh 'docker run -d --name node-todo-app1 -p 3000:3000 todo-node-app1'
                 }
             }
