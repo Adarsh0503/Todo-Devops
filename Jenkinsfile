@@ -2,6 +2,18 @@ pipeline {
     agent any 
 
     stages {
+
+
+
+        stage('Check Docker') {
+            steps {
+                script {
+                    echo 'Checking Docker installation'
+                    sh 'docker --version'
+                }
+            }
+        }
+
         stage('Checkout') {
             steps {
                 echo 'Checking out the code from the GitHub repository'
