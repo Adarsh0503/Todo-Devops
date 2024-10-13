@@ -2,8 +2,12 @@ pipeline {
     agent any 
 
     stages {
-
-
+        stage('Checkout') {
+            steps {
+                echo 'Checking out the code from the GitHub repository'
+                git url: 'https://github.com/Adarsh0503/Todo-Devops.git', branch: 'main' 
+            }
+        }
 
         stage('Check Docker') {
             steps {
@@ -14,19 +18,11 @@ pipeline {
             }
         }
 
-        stage('Checkout') {
-            steps {
-                echo 'Checking out the code from the GitHub repository'
-                git url: 'https://github.com/Adarsh0503/Todo-Devops.git', branch: 'main' 
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 script {
                     echo 'Changing to the frontend directory and building the Docker image'
                     dir('frontend') {  // Assuming your Dockerfile is in the 'frontend' directory
-                        // Use the 'returnStatus' option to capture the exit code
                         def buildStatus = sh(script: 'docker build -t todo-node-app1 .', returnStatus: true)
                         if (buildStatus != 0) {
                             error 'Docker build failed!' // Error handling if the build fails
@@ -71,7 +67,6 @@ pipeline {
         always {
             echo 'Cleaning up...'
             script {
-                // Optionally clean up the container after the build
                 sh '''
                 docker rm -f node-todo-app1 || true
                 '''
