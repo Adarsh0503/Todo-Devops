@@ -1,12 +1,12 @@
 pipeline {
-    agent any 
+    agent any
 
     stages {
         stage('Checkout') {
             steps {
                 echo '=== Starting Checkout Stage ==='
                 echo 'Checking out the code from the GitHub repository'
-                git url: 'https://github.com/Adarsh0503/Todo-Devops.git', branch: 'main' 
+                git url: 'https://github.com/Adarsh0503/Todo-Devops.git', branch: 'main'
                 echo '=== Checkout Stage Completed ==='
             }
         }
@@ -16,6 +16,10 @@ pipeline {
                 script {
                     echo '=== Starting Check Docker Stage ==='
                     echo 'Checking Docker installation'
+                    def dockerStatus = sh(script: 'systemctl is-active --quiet docker || exit 1', returnStatus: true)
+                    if (dockerStatus != 0) {
+                        error 'Docker service is not running!'
+                    }
                     def dockerVersion = sh(script: 'docker --version', returnStdout: true).trim()
                     echo "Docker Version: ${dockerVersion}"
                     echo '=== Check Docker Stage Completed ==='
@@ -78,9 +82,7 @@ pipeline {
         always {
             echo '=== Cleaning Up... ==='
             script {
-                sh '''
-                docker rm -f node-todo-app1 || true
-                '''
+                sh 'docker rm -f node-todo-app1 || true' // Clean up
                 echo '=== Cleanup Completed ==='
             }
         }
