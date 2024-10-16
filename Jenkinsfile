@@ -4,23 +4,15 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Use SSH URL if possible
-                git branch: 'main', url: 'git@github.com:Adarsh0503/Todo-Devops.git' // SSH URL
-                // Uncomment below line and comment above if using HTTPS and credentials are set
-                // git 'https://github.com/Adarsh0503/Todo-Devops.git'
+                // Use the HTTPS URL and specify credentials if necessary
+                git branch: 'main', url: 'https://github.com/Adarsh0503/Todo-Devops.git'// Replace with your credential ID
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Check if Dockerfile exists
-                    if (fileExists('./frontend/Dockerfile')) {
-                        // Build the Docker image
-                        def frontendImage = docker.build("frontend-image", "./frontend")
-                    } else {
-                        error "Dockerfile not found in ./frontend"
-                    }
+                    def frontendImage = docker.build("frontend-image", "./frontend")
                 }
             }
         }
