@@ -7,9 +7,7 @@ const Header = () => {
       <h1 className="text-4xl font-bold text-white">My To-Do App</h1>
     </header>
 
-    <footer className="bg-red-600 p-8 text-center">
-      <h1 className="text-4xl font-bold text-white">My To-Do App</h1>
-    </footer>
+ 
 
     </>
   );
