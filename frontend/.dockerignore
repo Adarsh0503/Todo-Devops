@@ -1,0 +1,21 @@
+# Ignore node_modules folder
+node_modules
+
+# Ignore Git repository files
+.git
+.gitignore
+
+# Ignore log files
+*.log
+
+# Ignore environment variable files (optional)
+.env
+
+# Ignore Docker-related files
+Dockerfile
+.dockerignore
+
+# Ignore any local IDE/editor settings or files
+.vscode/
+.idea/
+*.swp
